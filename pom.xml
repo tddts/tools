@@ -9,7 +9,7 @@
 
   <name>TDDTS Core Tools</name>
   <description>Library that contains a set of various tools (mostly) for desktop applications.</description>
-  <url>https://github.com/tddts/tools</url>
+  <url>https://github.com/tddts/tools-core</url>
 
   <developers>
     <developer>
@@ -28,9 +28,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git://github.com/tddts/tools.git</connection>
-    <developerConnection>scm:git:ssh://github.com:tddts/tools.git</developerConnection>
-    <url>http://github.com/tddts/tools/tree/master/</url>
+    <connection>scm:git:git://github.com/tddts/tools-core.git</connection>
+    <developerConnection>scm:git:ssh://github.com:tddts/tools-core.git</developerConnection>
+    <url>http://github.com/tddts/tools-core/tree/master/</url>
   </scm>
 
   <properties>
