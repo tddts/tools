@@ -26,14 +26,12 @@ import java.util.function.IntUnaryOperator;
 import java.util.function.Predicate;
 
 /**
- * {@code PaginationImpl} is a default implementation for {@link Pagination}.
- * Instances should be created using {@link PaginationBuilder}.
+ * {@code SerialPagination} is a serial implementation for {@link Pagination}.
+ * Instances should be created using {@link SerialPaginationBuilderImpl}.
  *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-final class PaginationImpl<T> implements Pagination<T>, PaginationErrorHandler {
-
-  private static final IntUnaryOperator SINGLE_INCREMENT_OPERATOR = (page) -> page + 1;
+final class SerialPagination<T> implements Pagination<T>, PaginationErrorHandler {
 
   private final IntFunction<T> loadFunction;
   private final BiConsumer<Pagination<T>, T> loadingResultConsumer;
@@ -50,14 +48,14 @@ final class PaginationImpl<T> implements Pagination<T>, PaginationErrorHandler {
 
   private T lastPage;
 
-  private IntUnaryOperator incrementingOperator = SINGLE_INCREMENT_OPERATOR;
+  private IntUnaryOperator incrementingOperator = PaginationBuilderParams.SINGLE_INCREMENT_OPERATOR;
 
 
-  PaginationImpl(Consumer<Pagination<T>> presetPagination,
-                 IntFunction<T> loadFunction,
-                 BiConsumer<Pagination<T>, T> loadingResultConsumer,
-                 int retryNumber, long retryTimeout,
-                 boolean skipPageOnRetry) {
+  SerialPagination(Consumer<Pagination<T>> presetPagination,
+                   IntFunction<T> loadFunction,
+                   BiConsumer<Pagination<T>, T> loadingResultConsumer,
+                   int retryNumber, long retryTimeout,
+                   boolean skipPageOnRetry) {
 
     this.loadFunction = loadFunction;
     this.loadingResultConsumer = loadingResultConsumer;
@@ -74,7 +72,7 @@ final class PaginationImpl<T> implements Pagination<T>, PaginationErrorHandler {
 
   @Override
   public void perform(int firstPage, int lastPage) {
-    performInternal(firstPage, SINGLE_INCREMENT_OPERATOR, rangeCondition(firstPage, lastPage));
+    performInternal(firstPage, PaginationBuilderParams.SINGLE_INCREMENT_OPERATOR, rangeCondition(firstPage, lastPage));
   }
 
   @Override
