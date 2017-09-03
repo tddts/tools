@@ -18,7 +18,6 @@ package com.github.tddts.tools.core.pagination;
 
 
 import java.util.function.IntUnaryOperator;
-import java.util.function.Predicate;
 
 /**
  * {@code Pagination} is an interface for classes performing pagination process.
@@ -44,33 +43,15 @@ public interface Pagination<T> {
   /**
    * Perform pagination for given range of pages, using specified operator for number incrementation.
    *
-   * @param minPage              minimal page number
-   * @param maxPage              maximum page number
+   * @param firstPage             number of a first page
+   * @param lastPage              number of a last page
    * @param incrementingOperator incrementing operator
    */
-  void perform(int minPage, int maxPage, IntUnaryOperator incrementingOperator);
-
-  /**
-   * Perform pagination starting with given page while condition is fulfilled.
-   *
-   * @param beginningPage        beginning page
-   * @param incrementingOperator incrementing operator
-   * @param condition            pagination condition
-   */
-  void perform(int beginningPage, IntUnaryOperator incrementingOperator, Predicate<Pagination> condition);
-
-
-  /**
-   * Perform pagination starting with given page while condition is fulfilled.
-   *
-   * @param beginningPage beginning page
-   * @param condition     pagination condition
-   */
-  void perform(int beginningPage, Predicate<Pagination> condition);
+  void perform(int firstPage, int lastPage, IntUnaryOperator incrementingOperator);
 
   /**
    * Stop pagination process.
-   * Does not interrupt processing of a current page.
+   * Does not interrupt processing of a current page (or pages).
    */
   void stop();
 
@@ -81,24 +62,4 @@ public interface Pagination<T> {
    */
   boolean isStopped();
 
-  /**
-   * Get error handler for this pagination object.
-   *
-   * @return error handler object.
-   */
-  PaginationErrorHandler getErrorHandler();
-
-  /**
-   * Get current page number.
-   *
-   * @return current page
-   */
-  int getCurrentPageNumber();
-
-  /**
-   * Get last processed page
-   *
-   * @return last page object
-   */
-  T getLastPage();
 }

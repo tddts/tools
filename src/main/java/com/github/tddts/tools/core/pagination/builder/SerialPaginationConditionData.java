@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.core.pagination;
+package com.github.tddts.tools.core.pagination.builder;
 
 /**
- * @author Tigran_Dadaiants@epam.com
+ * {@code SerialPaginationConditionData} represents pagination data that can be used in pagination condition.
+ *
+ * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public interface PaginationErrorHandler {
+public interface SerialPaginationConditionData<T> {
 
-  /**
-   * Stop pagination on error.
-   */
-  void stop();
+  int lastPageNumber();
 
-  /**
-   * Skip page on error.
-   */
-  void skipPage();
-
-  /**
-   * Retry current page on error.
-   */
-  void retryPage();
-
+  T lastPage();
 }

@@ -1,15 +1,32 @@
-package com.github.tddts.tools.core.pagination;
+/*
+ * Copyright 2017 Tigran Dadaiants
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.github.tddts.tools.core.pagination.builder;
+
+import com.github.tddts.tools.core.function.ObjIntFunction;
+import com.github.tddts.tools.core.pagination.Pagination;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
-import java.util.function.IntFunction;
 import java.util.function.IntUnaryOperator;
-import java.util.function.Predicate;
+import java.util.function.ObjIntConsumer;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public interface PaginationBuilder<T, B extends PaginationBuilder<T, B>> {
+public interface PaginationBuilder<T, P extends Pagination<T>, B extends PaginationBuilder<T, P, B>> {
 
   /**
    * Set function that will be loading data for given page.
@@ -17,7 +34,7 @@ public interface PaginationBuilder<T, B extends PaginationBuilder<T, B>> {
    * @param loadFunction page loading function
    * @return current builder instance
    */
-  B loadPage(IntFunction<T> loadFunction);
+  B loadPage(ObjIntFunction<T, SinglePageErrorHandler> loadFunction);
 
   /**
    * Set consumer processing loaded page data.
@@ -25,7 +42,7 @@ public interface PaginationBuilder<T, B extends PaginationBuilder<T, B>> {
    * @param loadingResultConsumer page data consumer
    * @return current builder instance
    */
-  B processPage(BiConsumer<Pagination<T>, T> loadingResultConsumer);
+  B processPage(ObjIntConsumer<T> loadingResultConsumer);
 
   /**
    * Set page for pagination to start with.
@@ -81,20 +98,13 @@ public interface PaginationBuilder<T, B extends PaginationBuilder<T, B>> {
   B skiPageOnRetry(boolean skipPageOnRetry);
 
   /**
-   * Perform pagination while condition is true.
-   *
-   * @param condition pagination condition
-   * @return current builder instance
-   */
-  B whileTrue(Predicate<Pagination> condition);
-
-  /**
    * Build pagination object using given parameters.
    * <p>
    * <b>Note</b> that this default pagination implementation is not thread safe and cannot be performed in multiple threads
    * simultaneously.
    *
+   * @throws IllegalStateException if builder state is invalid.
    * @return pagination object.
    */
-  Pagination<T> build();
+  P build() throws IllegalStateException;
 }

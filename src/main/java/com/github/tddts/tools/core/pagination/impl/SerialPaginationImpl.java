@@ -16,26 +16,28 @@
 
 package com.github.tddts.tools.core.pagination.impl;
 
+import com.github.tddts.tools.core.function.ObjIntFunction;
 import com.github.tddts.tools.core.pagination.Pagination;
-import com.github.tddts.tools.core.pagination.PaginationErrorHandler;
+import com.github.tddts.tools.core.pagination.SerialPagination;
+import com.github.tddts.tools.core.pagination.builder.SerialPaginationConditionData;
+import com.github.tddts.tools.core.pagination.builder.SinglePageErrorHandler;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.IntUnaryOperator;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Predicate;
 
 /**
- * {@code SerialPagination} is a serial implementation for {@link Pagination}.
+ * {@code SerialPaginationImpl} is a serial implementation for {@link Pagination}.
  * Instances should be created using {@link SerialPaginationBuilderImpl}.
  *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-final class SerialPagination<T> implements Pagination<T>, PaginationErrorHandler {
+final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPaginationConditionData<T>, SinglePageErrorHandler {
 
-  private final IntFunction<T> loadFunction;
-  private final BiConsumer<Pagination<T>, T> loadingResultConsumer;
-  private final Consumer<Pagination<T>> presetPagination;
+  private final ObjIntFunction<T, SinglePageErrorHandler> loadFunction;
+  private final ObjIntConsumer<T> loadingResultConsumer;
+  private final Consumer<SerialPagination<T>> presetPagination;
 
   private final int retryNumber;
   private final long retryTimeout;
@@ -51,11 +53,11 @@ final class SerialPagination<T> implements Pagination<T>, PaginationErrorHandler
   private IntUnaryOperator incrementingOperator = PaginationBuilderParams.SINGLE_INCREMENT_OPERATOR;
 
 
-  SerialPagination(Consumer<Pagination<T>> presetPagination,
-                   IntFunction<T> loadFunction,
-                   BiConsumer<Pagination<T>, T> loadingResultConsumer,
-                   int retryNumber, long retryTimeout,
-                   boolean skipPageOnRetry) {
+  SerialPaginationImpl(Consumer<SerialPagination<T>> presetPagination,
+                       ObjIntFunction<T, SinglePageErrorHandler> loadFunction,
+                       ObjIntConsumer<T> loadingResultConsumer,
+                       int retryNumber, long retryTimeout,
+                       boolean skipPageOnRetry) {
 
     this.loadFunction = loadFunction;
     this.loadingResultConsumer = loadingResultConsumer;
@@ -76,38 +78,60 @@ final class SerialPagination<T> implements Pagination<T>, PaginationErrorHandler
   }
 
   @Override
-  public void perform(int minPage, int maxPage, IntUnaryOperator incrementingOperator) {
-    performInternal(minPage, incrementingOperator, rangeCondition(minPage, maxPage));
+  public void perform(int firstPage, int lastPage, IntUnaryOperator incrementingOperator) {
+    performInternal(firstPage, incrementingOperator, rangeCondition(firstPage, lastPage));
   }
 
   @Override
-  public void perform(int beginningPage, IntUnaryOperator incrementingOperator, Predicate<Pagination> condition) {
+  public void perform(int beginningPage, IntUnaryOperator incrementingOperator, Predicate<SerialPaginationConditionData<T>> condition) {
     performInternal(beginningPage, incrementingOperator, condition);
   }
 
   @Override
-  public void perform(int firstPage, Predicate<Pagination> condition) {
-    page = firstPage;
-    stop = false;
-    do {
-      lastPage = loadFunction.apply(page);
-      loadingResultConsumer.accept(this, lastPage);
-      incrementPage();
-    }
-    while (!stop && condition.test(this));
+  public void perform(int firstPage, Predicate<SerialPaginationConditionData<T>> condition) {
+    performInternal(firstPage, PaginationBuilderParams.SINGLE_INCREMENT_OPERATOR, condition);
   }
 
   private void incrementPage() {
     page = incrementingOperator.applyAsInt(page);
   }
 
-  private void performInternal(int firstPage, IntUnaryOperator incrementingOperator, Predicate<Pagination> condition) {
+  private void performInternal(int firstPage, IntUnaryOperator incrementingOperator, Predicate<SerialPaginationConditionData<T>> condition) {
     this.incrementingOperator = incrementingOperator;
-    perform(firstPage, condition);
+    page = firstPage;
+    stop = false;
+    do {
+      lastPage = loadFunction.apply(page, this);
+      loadingResultConsumer.accept(lastPage, page);
+      incrementPage();
+    }
+    while (!stop && condition.test(this));
   }
 
-  private Predicate<Pagination> rangeCondition(int minPage, int maxPage) {
-    return (pagination) -> page >= minPage && page <= maxPage;
+  private Predicate<SerialPaginationConditionData<T>> rangeCondition(int firstPage, int lastPage) {
+    int min;
+    int max;
+
+    if (firstPage > lastPage) {
+      min = lastPage;
+      max = firstPage;
+    }
+    else {
+      min = firstPage;
+      max = lastPage;
+    }
+
+    return (pagination) -> page >= min && page <= max;
+  }
+
+  @Override
+  public int lastPageNumber() {
+    return page;
+  }
+
+  @Override
+  public T lastPage() {
+    return lastPage;
   }
 
   @Override
@@ -129,7 +153,7 @@ final class SerialPagination<T> implements Pagination<T>, PaginationErrorHandler
   public void retryPage() {
     if (retryCount < retryNumber) {
       // Retry after timeout
-      sleepForTimeout(retryTimeout);
+      sleepForTimeout();
       retryCount++;
     }
     else {
@@ -145,27 +169,12 @@ final class SerialPagination<T> implements Pagination<T>, PaginationErrorHandler
     }
   }
 
-  private void sleepForTimeout(long retryTimeout) {
+  private void sleepForTimeout() {
     try {
       Thread.sleep(retryTimeout);
     } catch (InterruptedException e) {
       stop();
       Thread.currentThread().interrupt();
     }
-  }
-
-  @Override
-  public PaginationErrorHandler getErrorHandler() {
-    return this;
-  }
-
-  @Override
-  public int getCurrentPageNumber() {
-    return page;
-  }
-
-  @Override
-  public T getLastPage() {
-    return lastPage;
   }
 }
