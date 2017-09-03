@@ -18,7 +18,6 @@ package com.github.tddts.tools.core.pagination.impl;
 
 import com.github.tddts.tools.core.function.ObjIntFunction;
 import com.github.tddts.tools.core.pagination.ParallelPagination;
-import com.github.tddts.tools.core.pagination.builder.ParallelPaginationConditionData;
 import com.github.tddts.tools.core.pagination.builder.ParallelPaginationErrorHandler;
 import com.github.tddts.tools.core.pagination.builder.SinglePageErrorHandler;
 
@@ -35,7 +34,6 @@ import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.IntUnaryOperator;
 import java.util.function.ObjIntConsumer;
-import java.util.function.Predicate;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
@@ -51,7 +49,6 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
   private final long retryTimeout;
   private final boolean skipPageOnRetry;
   private final int parallelPages;
-  private final int[] pagesRange;
 
   private ExecutorService executorService;
   private Set<ErrorHandlingCallable> callablesToRetry;
@@ -74,8 +71,6 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
     this.retryTimeout = retryTimeout;
     this.skipPageOnRetry = skipPageOnRetry;
     this.parallelPages = parallelPages;
-
-    this.pagesRange = new int[parallelPages];
     this.callablesToRetry = new TreeSet<>();
   }
 
@@ -121,16 +116,6 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
     } finally {
       executorService.shutdown();
     }
-  }
-
-  @Override
-  public void perform(int beginningPage, IntUnaryOperator incrementingOperator, Predicate<ParallelPaginationConditionData<T>> condition) {
-
-  }
-
-  @Override
-  public void perform(int beginningPage, Predicate<ParallelPaginationConditionData<T>> condition) {
-
   }
 
   private int[] generateRange(int lastLoadedPage, int lastPage, boolean positive, IntUnaryOperator inc) {
@@ -190,9 +175,10 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
     }
   }
 
-  private class ErrorHandlingCallable implements Callable<LoadResult>, SinglePageErrorHandler{
+  private class ErrorHandlingCallable implements Callable<LoadResult>, SinglePageErrorHandler {
 
     int page;
+    int retries;
     long timeout;
     ParallelPagination pagination;
 
@@ -213,13 +199,23 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
 
     @Override
     public void retryPage() {
+      if (retries >= retryNumber) {
+        if (skipPageOnRetry) {
+          skipPage();
+        }
+        else {
+          stop();
+        }
+      }
+
       timeout = retryTimeout;
       callablesToRetry.add(this);
+      retries++;
     }
 
     @Override
     public LoadResult call() throws Exception {
-      if(timeout > 0){
+      if (timeout > 0) {
         sleepForTimeout();
         timeout = 0;
       }

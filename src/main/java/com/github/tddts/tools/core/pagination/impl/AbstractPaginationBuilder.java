@@ -18,8 +18,8 @@ package com.github.tddts.tools.core.pagination.impl;
 
 import com.github.tddts.tools.core.function.ObjIntFunction;
 import com.github.tddts.tools.core.pagination.Pagination;
-import com.github.tddts.tools.core.pagination.builder.SinglePageErrorHandler;
 import com.github.tddts.tools.core.pagination.builder.PaginationBuilder;
+import com.github.tddts.tools.core.pagination.builder.SinglePageErrorHandler;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.IntUnaryOperator;
@@ -28,7 +28,7 @@ import java.util.function.ObjIntConsumer;
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-abstract class AbstractPaginationBuilder
+public abstract class AbstractPaginationBuilder
     <T, P extends Pagination<T>,
         R extends PaginationBuilderParams<T>,
         B extends PaginationBuilder<T, P, B>>
@@ -78,19 +78,19 @@ abstract class AbstractPaginationBuilder
 
   @Override
   public B retryNumber(int retryNumber) {
-    this.params.setRetryNumber(retryNumber);
+    getParams().setRetryNumber(retryNumber);
     return getCurrentInstance();
   }
 
   @Override
   public B retryTimeout(long retryTimeout, TimeUnit timeUnit) {
-    this.params.setRetryTimeout(timeUnit.toMillis(retryTimeout));
+    getParams().setRetryTimeout(timeUnit.toMillis(retryTimeout));
     return getCurrentInstance();
   }
 
   @Override
   public B skiPageOnRetry(boolean skipPageOnRetry) {
-    this.params.setSkipPageOnRetry(skipPageOnRetry);
+    getParams().setSkipPageOnRetry(skipPageOnRetry);
     return getCurrentInstance();
   }
 

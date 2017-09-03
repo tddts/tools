@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  */
 public interface ParallelPaginationErrorHandler {
 
-  void  handleInterruptedException(InterruptedException e);
+  void handleInterruptedException(InterruptedException e);
 
   void handleExecutionException(ExecutionException e);
 }

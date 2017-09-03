@@ -17,12 +17,10 @@
 package com.github.tddts.tools.core.pagination.impl;
 
 import com.github.tddts.tools.core.pagination.ParallelPagination;
-import com.github.tddts.tools.core.pagination.builder.ParallelPaginationConditionData;
 import com.github.tddts.tools.core.pagination.builder.ParallelPaginationErrorHandler;
 import com.github.tddts.tools.core.pagination.builder.ParallelPaginationBuilder;
 
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
@@ -51,11 +49,6 @@ final class ParallelPaginationBuilderImpl<T>
   public ParallelPaginationBuilder<T> errorHandler(ParallelPaginationErrorHandler errorHandler) {
     getParams().setParallelErrorHandler(errorHandler);
     return this;
-  }
-
-  @Override
-  public ParallelPaginationBuilder<T> loadWhile(Predicate<ParallelPaginationConditionData> condition) {
-    return null;
   }
 
   @Override

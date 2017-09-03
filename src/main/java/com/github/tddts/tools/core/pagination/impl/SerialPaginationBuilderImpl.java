@@ -18,9 +18,10 @@ package com.github.tddts.tools.core.pagination.impl;
 
 
 import com.github.tddts.tools.core.pagination.SerialPagination;
-import com.github.tddts.tools.core.pagination.builder.SerialPaginationConditionData;
 import com.github.tddts.tools.core.pagination.builder.SerialPaginationBuilder;
+import com.github.tddts.tools.core.pagination.builder.SerialPaginationConditionData;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 

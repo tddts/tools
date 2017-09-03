@@ -46,13 +46,4 @@ public interface ParallelPaginationBuilder<T> extends PaginationBuilder<T, Paral
    * @return current builder instance
    */
   ParallelPaginationBuilder<T> errorHandler(ParallelPaginationErrorHandler errorHandler);
-
-  /**
-   * Perform pagination while condition is true.
-   *
-   * @param condition pagination condition
-   * @return current builder instance
-   */
-  ParallelPaginationBuilder<T> loadWhile(Predicate<ParallelPaginationConditionData> condition);
-
 }

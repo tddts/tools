@@ -50,4 +50,5 @@ class SerialPaginationBuilderParams<T> extends PaginationBuilderParams<T> {
   boolean isConditionSet() {
     return condition != null;
   }
+
 }

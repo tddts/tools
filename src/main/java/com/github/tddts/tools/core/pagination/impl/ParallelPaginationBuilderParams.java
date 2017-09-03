@@ -17,11 +17,9 @@
 package com.github.tddts.tools.core.pagination.impl;
 
 
-import com.github.tddts.tools.core.pagination.builder.ParallelPaginationConditionData;
 import com.github.tddts.tools.core.pagination.builder.ParallelPaginationErrorHandler;
 
 import java.util.concurrent.ExecutionException;
-import java.util.function.Predicate;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
@@ -30,7 +28,6 @@ class ParallelPaginationBuilderParams<T> extends PaginationBuilderParams<T> {
 
   private int parallelPages = 2;
   private ParallelPaginationErrorHandler parallelErrorHandler = new DefaultParallelPaginationErrorHandler();
-  private Predicate<ParallelPaginationConditionData> condition;
 
   @Override
   void validate() throws IllegalStateException {
@@ -59,14 +56,6 @@ class ParallelPaginationBuilderParams<T> extends PaginationBuilderParams<T> {
 
   boolean isPresentErrorHandler() {
     return parallelErrorHandler != null;
-  }
-
-  public Predicate<ParallelPaginationConditionData> getCondition() {
-    return condition;
-  }
-
-  public void setCondition(Predicate<ParallelPaginationConditionData> condition) {
-    this.condition = condition;
   }
 
   private static class DefaultParallelPaginationErrorHandler implements ParallelPaginationErrorHandler {

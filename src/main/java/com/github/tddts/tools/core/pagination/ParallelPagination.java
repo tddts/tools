@@ -16,31 +16,10 @@
 
 package com.github.tddts.tools.core.pagination;
 
-import com.github.tddts.tools.core.pagination.builder.ParallelPaginationConditionData;
-
-import java.util.function.IntUnaryOperator;
-import java.util.function.Predicate;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public interface ParallelPagination<T> extends Pagination<T> {
 
-  /**
-   * Perform pagination starting with given page while condition is fulfilled.
-   *
-   * @param beginningPage        beginning page
-   * @param incrementingOperator incrementing operator
-   * @param condition            pagination condition
-   */
-  void perform(int beginningPage, IntUnaryOperator incrementingOperator, Predicate<ParallelPaginationConditionData<T>> condition);
-
-
-  /**
-   * Perform pagination starting with given page while condition is fulfilled.
-   *
-   * @param beginningPage beginning page
-   * @param condition     pagination condition
-   */
-  void perform(int beginningPage, Predicate<ParallelPaginationConditionData<T>> condition);
 }

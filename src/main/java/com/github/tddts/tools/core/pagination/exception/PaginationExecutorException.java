@@ -14,16 +14,29 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.core.pagination.builder;
-
-import java.util.List;
+package com.github.tddts.tools.core.pagination.exception;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public interface ParallelPaginationConditionData<T> {
+public class PaginationExecutorException extends RuntimeException {
 
-  List<T> lastLoadedPages();
+  public PaginationExecutorException() {
+  }
 
-  int[] lastLoadedPageNumbers();
+  public PaginationExecutorException(String message) {
+    super(message);
+  }
+
+  public PaginationExecutorException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public PaginationExecutorException(Throwable cause) {
+    super(cause);
+  }
+
+  public PaginationExecutorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

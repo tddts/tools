@@ -48,6 +48,9 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
   private int page;
   private int retryCount;
 
+  private boolean retry;
+  private boolean skip;
+
   private T lastPage;
 
   private IntUnaryOperator incrementingOperator = PaginationBuilderParams.SINGLE_INCREMENT_OPERATOR;
@@ -101,7 +104,10 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     page = firstPage;
     stop = false;
     do {
+      retry = false;
+      skip = false;
       lastPage = loadFunction.apply(page, this);
+      if (retry || skip) continue;
       loadingResultConsumer.accept(lastPage, page);
       incrementPage();
     }
@@ -146,6 +152,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
 
   @Override
   public void skipPage() {
+    skip = true;
     incrementPage();
   }
 
@@ -154,12 +161,13 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     if (retryCount < retryNumber) {
       // Retry after timeout
       sleepForTimeout();
+      retry = true;
       retryCount++;
     }
     else {
       // Set retry count to zero
       retryCount = 0;
-      // Skip or stop
+      // Skip or shutdown
       if (skipPageOnRetry) {
         skipPage();
       }

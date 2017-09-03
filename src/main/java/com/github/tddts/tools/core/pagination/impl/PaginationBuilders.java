@@ -29,17 +29,6 @@ import com.github.tddts.tools.core.pagination.builder.SerialPaginationBuilder;
 public interface PaginationBuilders {
 
   /**
-   * Create builder for "parallel" {@link Pagination}.
-   * It allows to process multiple pages simultaneously in several threads.
-   *
-   * @param <T> builder generic type
-   * @return builder for parallel pagination
-   */
-  static <T> ParallelPaginationBuilder<T> parallel() {
-    return new ParallelPaginationBuilderImpl<>();
-  }
-
-  /**
    * Create builder for "serial" {@link Pagination}.
    * It simply processes pages one-by-one.
    *
@@ -48,5 +37,16 @@ public interface PaginationBuilders {
    */
   static <T> SerialPaginationBuilder<T> serial() {
     return new SerialPaginationBuilderImpl<>();
+  }
+
+  /**
+   * Create builder for "parallel" {@link Pagination}.
+   * It allows to process multiple pages simultaneously in several threads.
+   *
+   * @param <T> builder generic type
+   * @return builder for parallel pagination
+   */
+  static <T> ParallelPaginationBuilder<T> parallel() {
+    return new ParallelPaginationBuilderImpl<>();
   }
 }

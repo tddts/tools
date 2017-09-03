@@ -88,8 +88,8 @@ public interface PaginationBuilder<T, P extends Pagination<T>, B extends Paginat
   B retryTimeout(long retryTimeout, TimeUnit timeUnit);
 
   /**
-   * Skip page if retry was unsuccessful or stop overall pagination process.
-   * Set <b>false</b> to stop pagination.
+   * Skip page if retry was unsuccessful or shutdown overall pagination process.
+   * Set <b>false</b> to shutdown pagination.
    * Default value is <b>true</b>.
    *
    * @param skipPageOnRetry skip flag
