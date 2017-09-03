@@ -53,6 +53,8 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
   private ExecutorService executorService;
   private Set<ErrorHandlingCallable> callablesToRetry;
 
+  private List<Future<LoadResult>> futures;
+
   private volatile boolean stop;
 
   ParallelPaginationImpl(Consumer<ParallelPagination<T>> presetPagination,
@@ -100,7 +102,7 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
         // Create list of callables
         callables = createCallables(pagesRange);
         // Execute callables and for all of them to finish
-        List<Future<LoadResult>> futures = executorService.invokeAll(callables);
+        futures = executorService.invokeAll(callables);
         // Pass all loaded pages to consumer
         for (Future<LoadResult> future : futures) {
           LoadResult loadResult = future.get();
@@ -156,7 +158,8 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
   @Override
   public void stop() {
     stop = true;
-    executorService.shutdownNow();
+    if (futures != null) futures.forEach((future) -> future.cancel(false));
+    executorService.shutdown();
   }
 
   @Override
