@@ -28,6 +28,8 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
+ * {@code SimplePaginationExecutor} is a most simple {@code PaginationExecutor} implemetation.
+ *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public class SimplePaginationExecutor implements PaginationExecutor {
