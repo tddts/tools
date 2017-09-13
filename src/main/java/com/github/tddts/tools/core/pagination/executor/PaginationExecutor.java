@@ -22,6 +22,8 @@ import com.github.tddts.tools.core.pagination.exception.PaginationExecutorExcept
 import java.util.Collection;
 
 /**
+ * {@code PaginationExecutor} allows to execute multiple pagination processes simultaneously.
+ *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public interface PaginationExecutor {
