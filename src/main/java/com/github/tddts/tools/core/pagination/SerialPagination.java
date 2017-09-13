@@ -22,6 +22,8 @@ import java.util.function.IntUnaryOperator;
 import java.util.function.Predicate;
 
 /**
+ * {@code SerialPagination} is a variety of {@code Pagination} that prorcesses pages one by one.
+ *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public interface SerialPagination<T> extends Pagination<T>{
