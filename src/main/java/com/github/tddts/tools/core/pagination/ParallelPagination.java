@@ -6,7 +6,7 @@
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,8 @@ package com.github.tddts.tools.core.pagination;
 
 
 /**
+ * {@code ParallelPagination} is a variety of {@code Pagination} that prorcesses multiple pages at once.
+ *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public interface ParallelPagination<T> extends Pagination<T> {
