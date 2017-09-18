@@ -92,7 +92,7 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
       executorService = Executors.newFixedThreadPool(parallelPages);
 
       List<Callable<LoadResult>> callables;
-      boolean positive = firstPage > lastPage;
+      boolean positive = lastPage > firstPage;
       int lastLoadedPage = firstPage;
 
       do {
@@ -103,13 +103,13 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
         callables = createCallables(pagesRange);
         // Execute callables and for all of them to finish
         futures = executorService.invokeAll(callables);
-        // Pass all loaded pages to consumer
+        // Pass all loaded pages to consumers
         for (Future<LoadResult> future : futures) {
           LoadResult loadResult = future.get();
           loadingResultConsumer.accept(loadResult.page, loadResult.pageNumber);
         }
         // Process while there are max number of callables available
-      } while (!stop && callables.size() >= parallelPages);
+      } while (!stop && !callablesToRetry.isEmpty() && callables.size() >= parallelPages);
 
     } catch (InterruptedException e) {
       errorHandler.handleInterruptedException(e);
@@ -158,8 +158,8 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
   @Override
   public void stop() {
     stop = true;
-    if (futures != null) futures.forEach((future) -> future.cancel(false));
     executorService.shutdown();
+    if (futures != null) futures.forEach((future) -> future.cancel(false));
   }
 
   @Override
@@ -205,8 +205,7 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
       if (retries >= retryNumber) {
         if (skipPageOnRetry) {
           skipPage();
-        }
-        else {
+        } else {
           stop();
         }
       }
