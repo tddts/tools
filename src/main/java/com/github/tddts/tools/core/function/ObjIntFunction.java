@@ -26,7 +26,7 @@ import java.util.function.BiFunction;
  * {@link BiFunction}.
  * <p>
  * This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #apply(int, Object)}.
+ * whose functional method is {@link #apply(Object, int)}.
  *
  * @param <R> the type of the result of the function
  * @param <T> the type of the object argument to the operation
@@ -36,5 +36,5 @@ import java.util.function.BiFunction;
 @FunctionalInterface
 public interface ObjIntFunction<R, T> {
 
-  R apply(int value, T u);
+  R apply(T t, int value);
 }

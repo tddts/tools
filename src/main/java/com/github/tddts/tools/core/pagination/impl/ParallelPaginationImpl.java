@@ -221,7 +221,7 @@ final class ParallelPaginationImpl<T> implements ParallelPagination<T> {
         sleepForTimeout();
         timeout = 0;
       }
-      return new LoadResult(page, loadFunction.apply(page, this));
+      return new LoadResult(page, loadFunction.apply(this, page));
     }
 
     private void sleepForTimeout() {

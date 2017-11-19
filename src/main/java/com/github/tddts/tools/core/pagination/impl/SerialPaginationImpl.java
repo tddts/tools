@@ -106,7 +106,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     do {
       retry = false;
       skip = false;
-      lastPage = loadFunction.apply(page, this);
+      lastPage = loadFunction.apply(this, page);
       if (retry || skip) continue;
       loadingResultConsumer.accept(lastPage, page);
       incrementPage();
