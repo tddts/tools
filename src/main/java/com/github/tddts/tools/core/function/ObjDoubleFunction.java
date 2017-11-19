@@ -20,13 +20,13 @@ import java.util.function.BiFunction;
 
 /**
  * Represents an operation that accepts an object-valued and a
- * {@code int}-valued argument and produces a result.
+ * {@code double}-valued argument and produces a result.
  * <p>
- * This is the {@code int}-consuming primitive specialization for
+ * This is the {@code double}-consuming primitive specialization for
  * {@link BiFunction}.
  * <p>
  * This is a functional interface
- * whose functional method is {@link #apply(Object, int)}.
+ * whose functional method is {@link #apply(Object, double)}.
  *
  * @param <R> the type of the result of the function
  * @param <T> the type of the object argument to the operation
@@ -34,7 +34,7 @@ import java.util.function.BiFunction;
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface ObjIntFunction<R, T> {
+public interface ObjDoubleFunction<R, T> {
 
-  R apply(T t, int value);
+  R apply(T t, double value);
 }
