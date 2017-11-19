@@ -15,6 +15,14 @@ public interface AuthHandlerCallback {
   void returnMessage(String text);
 
   /**
+   * Send response with defined status and given message as a content.
+   *
+   * @param status HTTP status code
+   * @param text message
+   */
+  void returnMessage(int status, String text);
+
+  /**
    * Send response with status <b>200</b> and file text as a content.
    *
    * @param file HTML page file
