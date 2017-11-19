@@ -26,11 +26,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
 /**
- * A utility class with static methods for various purposes.
+ * A utility class with static methods for resource handling.
  *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class Util {
+public class ResourceUtil {
 
   /**
    * Load content of given resource as String.
@@ -41,7 +41,7 @@ public class Util {
    * @throws UncheckedIOException in case of any IO errors, or if given resource was not found
    */
   public static String loadContent(String resourceName, Charset charset) throws UncheckedIOException {
-    try (InputStream inputStream = Util.class.getResourceAsStream(resourceName)) {
+    try (InputStream inputStream = ResourceUtil.class.getResourceAsStream(resourceName)) {
 
       if (inputStream == null) {
         String errorMessage = "Resource not found: " + resourceName;

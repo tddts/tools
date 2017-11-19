@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.tddts</groupId>
-  <artifactId>tools-core</artifactId>
+  <artifactId>tools</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>TDDTS Core Tools</name>
-  <description>Library that contains a set of various tools (mostly) for desktop applications.</description>
-  <url>https://github.com/tddts/tools-core</url>
+  <name>TDDTS Tools</name>
+  <description>Library that contains a set of various tools for desktop applications.</description>
+  <url>https://github.com/tddts/tools</url>
 
   <developers>
     <developer>
@@ -28,9 +28,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git://github.com/tddts/tools-core.git</connection>
-    <developerConnection>scm:git:ssh://github.com:tddts/tools-core.git</developerConnection>
-    <url>http://github.com/tddts/tools-core/tree/master/</url>
+    <connection>scm:git:git://github.com/tddts/tools.git</connection>
+    <developerConnection>scm:git:ssh://github.com:tddts/tools.git</developerConnection>
+    <url>http://github.com/tddts/tools/tree/master/</url>
   </scm>
 
   <properties>
@@ -73,6 +73,18 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore-nio</artifactId>
+      <version>4.4.6</version>
     </dependency>
 
   </dependencies>
