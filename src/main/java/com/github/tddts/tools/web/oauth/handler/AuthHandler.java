@@ -1,25 +1,16 @@
 package com.github.tddts.tools.web.oauth.handler;
 
+import org.apache.http.NameValuePair;
+
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
- * @author Tigran_Dadaiants@epam.com
+ * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public interface AuthHandler<T> {
+public interface AuthHandler {
 
-  /**
-   * Process response parameters.
-   *
-   * @param paramsConsumer response callback consumer
-   */
-  void onParams(BiConsumer<AuthHandlerCallback, T> paramsConsumer);
-
-  /**
-   * Process request with no parameters.
-   *
-   * @param callbackConsumer response callback consumer
-   */
-  void onEmptyParams(Consumer<AuthHandlerCallback> callbackConsumer);
+  void process(AuthHandlerCallback callback, List<NameValuePair> params);
 
 }

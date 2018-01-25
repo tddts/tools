@@ -17,7 +17,7 @@
 package com.github.tddts.tools.core.pagination.builder;
 
 /**
- * @author Tigran_Dadaiants@epam.com
+ * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public interface SinglePageErrorHandler {
 
