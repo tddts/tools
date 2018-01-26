@@ -19,7 +19,6 @@ package com.github.tddts.tools.web.oauth.handler.impl;
 import com.github.tddts.tools.web.oauth.handler.AuthHandlerCallback;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
-import org.apache.http.nio.protocol.HttpAsyncExchange;
 import org.apache.http.protocol.HttpContext;
 
 /**
@@ -27,52 +26,27 @@ import org.apache.http.protocol.HttpContext;
  */
 public abstract class AbstractAuthHandlerCallback implements AuthHandlerCallback {
 
-  private HttpRequest data;
-  private HttpAsyncExchange httpExchange;
+  private HttpRequest request;
+  private HttpResponse response;
   private HttpContext context;
 
   @Override
-  public void init(HttpRequest data, HttpAsyncExchange httpExchange, HttpContext context) {
-    this.data = data;
-    this.httpExchange = httpExchange;
+  public void init(HttpRequest request, HttpResponse response, HttpContext context) {
+    this.request = this.request;
+    this.response = response;
     this.context = context;
   }
 
-  protected HttpRequest getData() {
-    return data;
+  protected HttpRequest getRequest() {
+    return request;
   }
 
-  protected HttpAsyncExchange getHttpExchange() {
-    return httpExchange;
+  protected HttpResponse getResponse() {
+    return response;
   }
 
   protected HttpContext getContext() {
     return context;
   }
 
-  protected HttpResponse getResponse() {
-   checkExchange();
-   return httpExchange.getResponse();
-  }
-
-  protected HttpRequest getRequest(){
-    checkExchange();
-    return httpExchange.getRequest();
-  }
-
-  private void checkData() {
-    if (data == null) throwCallbackNotInitialized();
-  }
-
-  private void checkExchange() {
-    if (httpExchange == null) throwCallbackNotInitialized();
-  }
-
-  private void checkContext() {
-    if (context == null) throwCallbackNotInitialized();
-  }
-
-  private void throwCallbackNotInitialized() {
-    throw new IllegalStateException("Callback is not initialized!");
-  }
 }

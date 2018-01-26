@@ -20,10 +20,12 @@ import com.github.tddts.tools.web.oauth.handler.AuthHandler;
 import com.github.tddts.tools.web.oauth.handler.AuthHandlerCallback;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.nio.protocol.*;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.protocol.HttpRequestHandler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +34,7 @@ import java.util.List;
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class CallbackRequestHandler implements HttpAsyncRequestHandler<HttpRequest> {
+public class CallbackRequestHandler implements HttpRequestHandler {
 
   private AuthHandler authHandler;
   private AuthHandlerCallback callback;
@@ -43,15 +45,9 @@ public class CallbackRequestHandler implements HttpAsyncRequestHandler<HttpReque
   }
 
   @Override
-  public HttpAsyncRequestConsumer<HttpRequest> processRequest(HttpRequest request, HttpContext context) throws HttpException, IOException {
-    return new BasicAsyncRequestConsumer();
-  }
-
-  @Override
-  public void handle(HttpRequest data, HttpAsyncExchange httpExchange, HttpContext context) throws HttpException, IOException {
-    List<NameValuePair> params = URLEncodedUtils.parse(data.getRequestLine().getUri(), StandardCharsets.UTF_8);
-    callback.init(data, httpExchange, context);
+  public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
+    List<NameValuePair> params = URLEncodedUtils.parse(request.getRequestLine().getUri(), StandardCharsets.UTF_8);
+    callback.init(request, response, context);
     authHandler.process(callback, params);
-    httpExchange.submitResponse(new BasicAsyncResponseProducer(httpExchange.getResponse()));
   }
 }

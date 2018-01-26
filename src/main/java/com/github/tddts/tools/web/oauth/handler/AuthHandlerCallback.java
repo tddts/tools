@@ -1,6 +1,7 @@
 package com.github.tddts.tools.web.oauth.handler;
 
 import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.nio.protocol.HttpAsyncExchange;
 import org.apache.http.protocol.HttpContext;
 
@@ -14,11 +15,11 @@ public interface AuthHandlerCallback {
   /**
    * Initialize callback with HTTP excnahge data.
    *
-   * @param data         HTTP request data
-   * @param httpExchange HTTP exchange
-   * @param context      HTTP context
+   * @param request  HTTP request data
+   * @param response HTTP response
+   * @param context  HTTP context
    */
-  void init(HttpRequest data, HttpAsyncExchange httpExchange, HttpContext context);
+  void init(HttpRequest request, HttpResponse response, HttpContext context);
 
   /**
    * Send response with status <b>200</b> and given message as a content.
