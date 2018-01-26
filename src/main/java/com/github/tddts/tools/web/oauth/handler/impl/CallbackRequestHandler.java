@@ -46,7 +46,17 @@ public class CallbackRequestHandler implements HttpRequestHandler {
 
   @Override
   public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
-    List<NameValuePair> params = URLEncodedUtils.parse(request.getRequestLine().getUri(), StandardCharsets.UTF_8);
+    String uri = request.getRequestLine().getUri();
+    List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8);
+
+    // exclude URI from parameters
+    if (!params.isEmpty()
+        && params.get(0).getName().equals(uri)
+        && params.get(0).getValue() == null) {
+
+      params.remove(0);
+    }
+
     callback.init(request, response, context);
     authHandler.process(callback, params);
   }
