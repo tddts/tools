@@ -18,6 +18,8 @@ package com.github.tddts.tools.web.oauth.handler.impl;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.entity.AbstractHttpEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 
 import java.nio.charset.StandardCharsets;
@@ -40,7 +42,11 @@ public class SimpleAuthHandlerCallback extends AbstractAuthHandlerCallback {
   @Override
   public void returnMessage(int status, String text) {
     HttpResponse response = getResponse();
+
+    AbstractHttpEntity httpEntity = new StringEntity(text, StandardCharsets.UTF_8);
+    httpEntity.setContentType(ContentType.TEXT_HTML.toString());
+
     response.setStatusCode(status);
-    response.setEntity(new StringEntity(text, StandardCharsets.UTF_8));
+    response.setEntity(httpEntity);
   }
 }
