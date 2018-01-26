@@ -23,11 +23,14 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.nio.protocol.*;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -35,6 +38,8 @@ import java.util.List;
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
 public class CallbackRequestHandler implements HttpRequestHandler {
+
+  private static final Logger logger = LogManager.getLogger(CallbackRequestHandler.class);
 
   private AuthHandler authHandler;
   private AuthHandlerCallback callback;
@@ -46,18 +51,15 @@ public class CallbackRequestHandler implements HttpRequestHandler {
 
   @Override
   public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
-    String uri = request.getRequestLine().getUri();
-    List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8);
+    try {
+      URI uri = new URI(request.getRequestLine().getUri());
+      List<NameValuePair> params = URLEncodedUtils.parse(uri, StandardCharsets.UTF_8);
 
-    // exclude URI from parameters
-    if (!params.isEmpty()
-        && params.get(0).getName().equals(uri)
-        && params.get(0).getValue() == null) {
+      callback.init(request, response, context);
+      authHandler.process(callback, params);
 
-      params.remove(0);
+    } catch (URISyntaxException e) {
+      logger.error(e.getMessage(), e);
     }
-
-    callback.init(request, response, context);
-    authHandler.process(callback, params);
   }
 }
