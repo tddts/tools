@@ -16,6 +16,7 @@
 
 package com.github.tddts.tools.fx.controls;
 
+import com.github.tddts.tools.fx.converter.NumericFormatStringConverter;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
@@ -27,16 +28,20 @@ public abstract class NumericTextField<T extends Number> extends TextField {
 
   private TextFormatter<T> formatter;
 
-  public NumericTextField(StringConverter<T> converter) {
+  public NumericTextField(NumericFormatStringConverter<T> converter) {
     formatter = new TextFormatter<>(converter);
     setTextFormatter(formatter);
   }
 
-  public T getValue(){
-   return formatter.getValue();
+  public NumericTextField(StringConverter<T> converter, String pattern) {
+    this(new NumericFormatStringConverter<>(converter, pattern));
   }
 
-  public void setValue(T value){
+  public T getValue() {
+    return formatter.getValue();
+  }
+
+  public void setValue(T value) {
     formatter.setValue(value);
   }
 

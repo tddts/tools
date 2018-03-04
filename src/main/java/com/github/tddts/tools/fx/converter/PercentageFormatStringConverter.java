@@ -16,13 +16,15 @@
 
 package com.github.tddts.tools.fx.converter;
 
+import javafx.util.converter.FloatStringConverter;
+
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class PercentageFormatStringConverter extends FloatFormatStringConverter {
+public class PercentageFormatStringConverter extends NumericFormatStringConverter<Float> {
 
   public PercentageFormatStringConverter() {
-    setPattern("#%");
+    super(new FloatStringConverter(), "#%");
   }
 
   @Override

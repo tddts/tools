@@ -26,4 +26,5 @@ public class PercentageTextField extends NumericTextField<Float> {
   public PercentageTextField() {
     super(new PercentageFormatStringConverter());
   }
+
 }

@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public abstract class NumericFormatStringConverter<T extends Number> extends StringConverter<T>{
+public class NumericFormatStringConverter<T extends Number> extends StringConverter<T>{
 
   private StringConverter<T> stringConverter;
   private DecimalFormat format;
