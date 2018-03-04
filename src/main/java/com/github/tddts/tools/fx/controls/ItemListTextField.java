@@ -18,43 +18,76 @@ package com.github.tddts.tools.fx.controls;
 
 import javafx.scene.control.TextField;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class ItemListTextField extends TextField {
+public class ItemListTextField<T> extends TextField {
+
+  public static final String DEFAULT_DELIMITER = ",";
+
+  private final String delimiter;
+
+  private List<T> items = new LinkedList<>();
+  private StringJoiner stringJoiner;
+
+  public ItemListTextField(String delimiter) {
+    setEditable(false);
+    this.delimiter = delimiter;
+    stringJoiner = new StringJoiner(delimiter);
+  }
 
   public ItemListTextField() {
-    setEditable(false);
+    this(DEFAULT_DELIMITER);
   }
 
-  public void addItems(String... items) {
-    StringBuilder itemsBuilder = new StringBuilder(getText());
-    for (String item : items) {
-      if (item == null) continue;
-      if (!itemsBuilder.toString().contains(item)) {
-        if (itemsBuilder.length() > 0) itemsBuilder.append(",");
-        itemsBuilder.append(item);
-      }
-    }
-    setText(itemsBuilder.toString());
+  @SafeVarargs
+  public final void addAll(T... objects) {
+    addAll(Arrays.asList(objects));
   }
 
-  public void addItem(String item) {
-    if (item == null) return;
-
-    String items = getText();
-    if (!items.contains(item)) {
-      if (!items.isEmpty()) items = items + ",";
-      items = items + item;
-    }
-    setText(items);
+  public void addAll(Collection<T> objects) {
+    items.addAll(objects);
+    refresh();
   }
 
-  public List<String> getItems() {
-    return getText().isEmpty() ? Collections.emptyList() : Arrays.asList(getText().split(","));
+  public void add(T object) {
+    items.add(object);
+    stringJoiner.add(object.toString());
+    setText(stringJoiner.toString());
+  }
+
+  public void remove(T object) {
+    items.remove(object);
+    cleanAndRefresh();
+  }
+
+  public void removeAll(Collection<T> objects) {
+    items.removeAll(objects);
+    cleanAndRefresh();
+  }
+
+  public void removeAll() {
+    items.clear();
+    cleanAndRefresh();
+  }
+
+  public void removeLast() {
+    if (!items.isEmpty()) items.remove(items.size() - 1);
+  }
+
+  private void refresh() {
+    items.forEach((item) -> stringJoiner.add(item.toString()));
+    setText(stringJoiner.toString());
+  }
+
+  private void cleanAndRefresh() {
+    stringJoiner = new StringJoiner(delimiter);
+    refresh();
+  }
+
+  public List<T> getList() {
+    return Collections.unmodifiableList(items);
   }
 }
