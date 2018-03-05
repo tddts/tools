@@ -20,34 +20,48 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class NumberFormatCellFactory<T, U extends Number> implements Callback<TableColumn<T, U>, TableCell<T, U>> {
+public class CustomizableCellFactory<T, U> implements Callback<TableColumn<T, U>, TableCell<T, U>> {
 
-  private DecimalFormat format;
+  private List<CellUpdater<T,U>> updaters = new ArrayList<>();
 
-  public NumberFormatCellFactory(String pattern) {
-    this.format = new DecimalFormat(pattern);
+  public CustomizableCellFactory() {
   }
 
-  public NumberFormatCellFactory() {
-    this("#.##");
+  public CustomizableCellFactory(CellUpdater<T,U> updater) {
+    updaters.add(updater);
+  }
+
+  @SafeVarargs
+  public CustomizableCellFactory(CellUpdater<T,U>... updaters) {
+    this.updaters = Arrays.asList(updaters);
+  }
+
+  public CustomizableCellFactory(List<CellUpdater<T,U>> updaters) {
+    this.updaters = updaters;
+  }
+
+  public void addUpdater(CellUpdater<T,U> updater) {
+    updaters.add(updater);
   }
 
   @Override
   public TableCell<T, U> call(TableColumn<T, U> param) {
-    return new NumberFormatTableCell();
+    return new CustomizableTableCell();
   }
 
-  private class NumberFormatTableCell extends TableCell<T, U> {
+  private class CustomizableTableCell extends TableCell<T, U> {
 
     @Override
     protected void updateItem(U item, boolean empty) {
       super.updateItem(item, empty);
-      if (item != null) setText(format.format(item));
+      updaters.forEach(updater -> updater.updateItem(this, item, empty));
     }
   }
 }
