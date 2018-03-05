@@ -41,6 +41,10 @@ public class NumberFormatCellUpdater<T, U extends Number> implements CellUpdater
 
   @Override
   public void updateItem(TableCell<T, U> cell, U item, boolean empty) {
-    if (item != null) cell.setText(format.format(item));
+    if (item != null) {
+      cell.setText(format.format(item));
+    } else{
+      cell.setText(null);
+    }
   }
 }
