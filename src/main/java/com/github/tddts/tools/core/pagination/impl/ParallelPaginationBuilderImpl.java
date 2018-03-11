@@ -73,8 +73,7 @@ final class ParallelPaginationBuilderImpl<T>
 
     if (params.isIncrementingperatorSet()) {
       presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage(), params.getIncrementingOperator());
-    }
-    else {
+    } else {
       presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage());
     }
 

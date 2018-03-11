@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public interface SerialPagination<T> extends Pagination<T>{
+public interface SerialPagination<T> extends Pagination<T> {
 
   /**
    * Perform pagination starting with given page while condition is fulfilled.

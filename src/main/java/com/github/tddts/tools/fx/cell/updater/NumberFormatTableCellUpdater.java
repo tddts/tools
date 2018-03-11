@@ -43,8 +43,7 @@ public class NumberFormatTableCellUpdater<S, T extends Number> implements CellUp
   public void updateItem(TableCell<S, T> cell, T item, boolean empty) {
     if (item != null) {
       cell.setText(format.format(item));
-    }
-    else {
+    } else {
       cell.setText(null);
     }
   }

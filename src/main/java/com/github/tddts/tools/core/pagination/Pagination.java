@@ -43,8 +43,8 @@ public interface Pagination<T> {
   /**
    * Perform pagination for given range of pages, using specified operator for number incrementation.
    *
-   * @param firstPage             number of a first page
-   * @param lastPage              number of a last page
+   * @param firstPage            number of a first page
+   * @param lastPage             number of a last page
    * @param incrementingOperator incrementing operator
    */
   void perform(int firstPage, int lastPage, IntUnaryOperator incrementingOperator);

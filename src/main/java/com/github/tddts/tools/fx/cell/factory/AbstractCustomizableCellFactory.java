@@ -60,7 +60,7 @@ public abstract class AbstractCustomizableCellFactory<T, C extends Cell<T>> impl
     return updaters;
   }
 
-  protected void customUpdate(C cell, T item, boolean empty){
+  protected void customUpdate(C cell, T item, boolean empty) {
     updaters.forEach(updater -> updater.updateItem(cell, item, empty));
   }
 }

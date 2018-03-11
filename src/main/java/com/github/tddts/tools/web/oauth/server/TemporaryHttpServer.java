@@ -76,8 +76,7 @@ public class TemporaryHttpServer implements TemporaryServer {
       serverTimeoutTaskFuture.cancel(false);
       scheduleServerTimeoutStop();
       logger.debug("Server timeout refreshed.");
-    }
-    else {
+    } else {
       try {
         server.start();
         addShutdownHook();

@@ -121,8 +121,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     if (firstPage > lastPage) {
       min = lastPage;
       max = firstPage;
-    }
-    else {
+    } else {
       min = firstPage;
       max = lastPage;
     }
@@ -163,15 +162,13 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
       sleepForTimeout();
       retry = true;
       retryCount++;
-    }
-    else {
+    } else {
       // Set retry count to zero
       retryCount = 0;
       // Skip or shutdown
       if (skipPageOnRetry) {
         skipPage();
-      }
-      else {
+      } else {
         stop();
       }
     }

@@ -24,6 +24,6 @@ import javafx.util.converter.LongStringConverter;
 public class LongTextField extends NumericTextField<Long> {
 
   public LongTextField() {
-    super(new LongStringConverter(), "#");
+    super(new LongStringConverter(), "#", 0L);
   }
 }

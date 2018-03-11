@@ -25,6 +25,6 @@ import javafx.util.converter.DoubleStringConverter;
 public class DoubleTextField extends NumericTextField<Double> {
 
   public DoubleTextField() {
-    super(new DoubleStringConverter(), "#.####");
+    super(new DoubleStringConverter(), "#.####", 0d);
   }
 }

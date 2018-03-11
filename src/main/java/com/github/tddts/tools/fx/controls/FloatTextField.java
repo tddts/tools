@@ -24,6 +24,6 @@ import javafx.util.converter.FloatStringConverter;
 public class FloatTextField extends NumericTextField<Float> {
 
   public FloatTextField() {
-    super(new FloatStringConverter(), "#.##");
+    super(new FloatStringConverter(), "#.##", 0f);
   }
 }

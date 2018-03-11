@@ -24,6 +24,6 @@ import javafx.util.converter.IntegerStringConverter;
 public class IntegerTextField extends NumericTextField<Integer> {
 
   public IntegerTextField() {
-    super(new IntegerStringConverter(), "#");
+    super(new IntegerStringConverter(), "#", 0);
   }
 }

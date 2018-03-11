@@ -95,7 +95,7 @@ public class SimplePaginationExecutor implements PaginationExecutor {
   public void stop() {
     paginationSet.forEach(Pagination::stop);
     paginationSet.clear();
-    if(executorService!=null) executorService.shutdown();
+    if (executorService != null) executorService.shutdown();
   }
 
 }

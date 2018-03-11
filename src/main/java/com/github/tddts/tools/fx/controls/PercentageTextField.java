@@ -24,7 +24,7 @@ import com.github.tddts.tools.fx.converter.PercentageFormatStringConverter;
 public class PercentageTextField extends NumericTextField<Double> {
 
   public PercentageTextField() {
-    super(new PercentageFormatStringConverter());
+    super(new PercentageFormatStringConverter(), 0d);
   }
 
 }

@@ -103,8 +103,8 @@ public interface PaginationBuilder<T, P extends Pagination<T>, B extends Paginat
    * <b>Note</b> that this default pagination implementation is not thread safe and cannot be performed in multiple threads
    * simultaneously.
    *
-   * @throws IllegalStateException if builder state is invalid.
    * @return pagination object.
+   * @throws IllegalStateException if builder state is invalid.
    */
   P build() throws IllegalStateException;
 }

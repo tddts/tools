@@ -67,16 +67,13 @@ final class SerialPaginationBuilderImpl<T>
     if (params.isLastPageSet()) {
       if (params.isIncrementingperatorSet()) {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage(), params.getIncrementingOperator());
-      }
-      else {
+      } else {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage());
       }
-    }
-    else {
+    } else {
       if (params.isIncrementingperatorSet()) {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getIncrementingOperator(), params.getCondition());
-      }
-      else {
+      } else {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getCondition());
       }
     }
