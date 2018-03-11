@@ -29,7 +29,7 @@ public class ItemListTextField<T> extends TextField {
 
   private final String delimiter;
 
-  private List<T> items = new LinkedList<>();
+  private LinkedList<T> items = new LinkedList<>();
   private StringJoiner stringJoiner;
 
   public ItemListTextField(String delimiter) {
@@ -48,24 +48,28 @@ public class ItemListTextField<T> extends TextField {
   }
 
   public void addAll(Collection<T> objects) {
-    items.addAll(objects);
+    items.forEach(this::add);
     refresh();
   }
 
   public void add(T object) {
-    items.add(object);
-    stringJoiner.add(object.toString());
-    setText(stringJoiner.toString());
+    if (!items.contains(object)) {
+      items.add(object);
+      stringJoiner.add(object.toString());
+      setText(stringJoiner.toString());
+    }
   }
 
   public void remove(T object) {
-    items.remove(object);
-    cleanAndRefresh();
+    if (items.remove(object)) {
+      cleanAndRefresh();
+    }
   }
 
   public void removeAll(Collection<T> objects) {
-    items.removeAll(objects);
-    cleanAndRefresh();
+    if (items.removeAll(objects)) {
+      cleanAndRefresh();
+    }
   }
 
   public void removeAll() {
@@ -74,7 +78,7 @@ public class ItemListTextField<T> extends TextField {
   }
 
   public void removeLast() {
-    if (!items.isEmpty()) items.remove(items.size() - 1);
+    if (!items.isEmpty()) items.removeLast();
   }
 
   private void refresh() {
