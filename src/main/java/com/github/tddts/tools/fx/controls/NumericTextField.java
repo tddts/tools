@@ -45,7 +45,7 @@ public abstract class NumericTextField<T extends Number> extends TextField {
   }
 
   public void setValue(T value) {
-    formatter.setValue(value);
+    formatter.setValue(value == null ? defaultValue : value);
   }
 
 }
