@@ -21,7 +21,7 @@ import com.github.tddts.tools.fx.converter.PercentageFormatStringConverter;
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class PercentageTextField extends NumericTextField<Float> {
+public class PercentageTextField extends NumericTextField<Double> {
 
   public PercentageTextField() {
     super(new PercentageFormatStringConverter());

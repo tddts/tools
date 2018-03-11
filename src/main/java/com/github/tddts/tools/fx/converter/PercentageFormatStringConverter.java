@@ -16,19 +16,20 @@
 
 package com.github.tddts.tools.fx.converter;
 
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.FloatStringConverter;
 
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class PercentageFormatStringConverter extends NumericFormatStringConverter<Float> {
+public class PercentageFormatStringConverter extends NumericFormatStringConverter<Double> {
 
   public PercentageFormatStringConverter() {
-    super(new FloatStringConverter(), "#%");
+    super(new DoubleStringConverter(), "#%");
   }
 
   @Override
-  public Float fromString(String value) {
+  public Double fromString(String value) {
     // If the specified value is null or zero-length, return null
     if (value == null) {
       return null;
@@ -40,6 +41,6 @@ public class PercentageFormatStringConverter extends NumericFormatStringConverte
       return null;
     }
 
-    return Float.valueOf(value) / 100;
+    return Double.valueOf(value) / 100;
   }
 }
