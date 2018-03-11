@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.fx.table.cell;
+package com.github.tddts.tools.fx.cell;
 
 import javafx.scene.control.TableCell;
 
@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 /**
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class NumberFormatCellUpdater<T, U extends Number> implements CellUpdater<T, U> {
+public class NumberFormatCellUpdater<S, T extends Number> implements CellUpdater<T, TableCell<S, T>> {
 
   private DecimalFormat format;
 
@@ -40,10 +40,11 @@ public class NumberFormatCellUpdater<T, U extends Number> implements CellUpdater
   }
 
   @Override
-  public void updateItem(TableCell<T, U> cell, U item, boolean empty) {
+  public void updateItem(TableCell<S, T> cell, T item, boolean empty) {
     if (item != null) {
       cell.setText(format.format(item));
-    } else{
+    }
+    else {
       cell.setText(null);
     }
   }

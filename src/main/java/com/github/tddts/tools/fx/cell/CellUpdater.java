@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.fx.table.cell;
+package com.github.tddts.tools.fx.cell;
 
 import javafx.scene.control.Cell;
-import javafx.scene.control.TableCell;
 
 /**
- * {@code CellUpdater} represents an interface allowing to define custom update logic for JavaFX's {@link Cell}.
+ * {@code CellUpdater} represents an interface allowing to define custom customUpdate logic for JavaFX's {@link Cell}.
  *
- * @param <T> The type of the TableView generic type.
- *            This should also match with the first generic type in TableColumn.
- * @param <U> The type of the item contained within the Cell.
+ * @param <T> The type of the item contained within the Cell.
+ * @param <C> The generic type of the Cell.
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  * @see Cell#updateItem(java.lang.Object, boolean)
  */
 @FunctionalInterface
-public interface CellUpdater<T, U> {
+public interface CellUpdater<T, C extends Cell<T>> {
 
   /**
    * @param item  The new item for the cell.
@@ -38,5 +36,5 @@ public interface CellUpdater<T, U> {
    *              being used to render an "empty" row.
    * @see Cell#updateItem(java.lang.Object, boolean)
    */
-  void updateItem(TableCell<T, U> cell, U item, boolean empty);
+  void updateItem(C cell, T item, boolean empty);
 }
