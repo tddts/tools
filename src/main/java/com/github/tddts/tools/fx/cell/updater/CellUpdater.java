@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.fx.cell;
+package com.github.tddts.tools.fx.cell.updater;
 
 import javafx.scene.control.Cell;
 

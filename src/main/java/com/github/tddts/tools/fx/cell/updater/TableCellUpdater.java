@@ -14,38 +14,14 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.fx.cell;
+package com.github.tddts.tools.fx.cell.updater;
 
 import javafx.scene.control.TableCell;
 
-import java.text.DecimalFormat;
-
 /**
+ * {@code TableCellUpdater} is a {@link CellUpdater} specified for {@link TableCell}
+ *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public class NumberFormatCellUpdater<S, T extends Number> implements CellUpdater<T, TableCell<S, T>> {
-
-  private DecimalFormat format;
-
-  public NumberFormatCellUpdater(DecimalFormat format) {
-    this.format = format;
-  }
-
-  public NumberFormatCellUpdater(String pattern) {
-    this.format = new DecimalFormat(pattern);
-  }
-
-  public NumberFormatCellUpdater() {
-    this("#.##");
-  }
-
-  @Override
-  public void updateItem(TableCell<S, T> cell, T item, boolean empty) {
-    if (item != null) {
-      cell.setText(format.format(item));
-    }
-    else {
-      cell.setText(null);
-    }
-  }
+public interface TableCellUpdater<S, T> extends CellUpdater<T, TableCell<S, T>> {
 }

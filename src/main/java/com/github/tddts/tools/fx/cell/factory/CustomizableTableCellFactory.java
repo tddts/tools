@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.fx.cell;
+package com.github.tddts.tools.fx.cell.factory;
 
+import com.github.tddts.tools.fx.cell.updater.CellUpdater;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;

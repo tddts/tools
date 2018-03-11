@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.github.tddts.tools.fx.cell;
+package com.github.tddts.tools.fx.cell.updater;
 
-import javafx.scene.control.Cell;
+import javafx.scene.control.ListCell;
 
 /**
+ * {@code ListCellUpdater} is a {@link CellUpdater} specified for {@link ListCell}
+ *
  * @author Tigran_Dadaiants dtkcommon@gmail.com
  */
-public interface CustomizableCellFactory<T, C extends Cell<T>> {
-
-  /**
-   * Add custom cell updater that will be used by this cell factory.
-   *
-   * @param updater cell updater.
-   */
-  void addUpdater(CellUpdater<T, C> updater);
+public interface ListCellUpdater<T> extends CellUpdater<T, ListCell<T>> {
 }
