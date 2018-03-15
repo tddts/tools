@@ -53,7 +53,7 @@ public class SimplePaginationExecutor implements PaginationExecutor {
 
   @Override
   public void add(Pagination<?> pagination) {
-    paginationSet.add(pagination);
+    if (pagination != null) paginationSet.add(pagination);
   }
 
   @Override
