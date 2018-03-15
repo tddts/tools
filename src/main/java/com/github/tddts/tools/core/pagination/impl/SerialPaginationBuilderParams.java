@@ -26,6 +26,7 @@ import java.util.function.Predicate;
 class SerialPaginationBuilderParams<T> extends PaginationBuilderParams<T> {
 
   private Predicate<SerialPaginationConditionData<T>> condition;
+  private long loadingRate = 0;
 
   @Override
   void validate() throws IllegalStateException {
@@ -51,4 +52,11 @@ class SerialPaginationBuilderParams<T> extends PaginationBuilderParams<T> {
     return condition != null;
   }
 
+  public long getLoadingRate() {
+    return loadingRate;
+  }
+
+  public void setLoadingRate(long loadingRate) {
+    this.loadingRate = loadingRate;
+  }
 }

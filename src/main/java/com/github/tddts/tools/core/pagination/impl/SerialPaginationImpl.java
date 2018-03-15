@@ -41,6 +41,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
 
   private final int retryNumber;
   private final long retryTimeout;
+  private final long loadingRate;
   private final boolean skipPageOnRetry;
 
   private volatile boolean stop;
@@ -59,7 +60,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
   SerialPaginationImpl(Consumer<SerialPagination<T>> presetPagination,
                        ObjIntFunction<T, SinglePageErrorHandler> loadFunction,
                        ObjIntConsumer<T> loadingResultConsumer,
-                       int retryNumber, long retryTimeout,
+                       int retryNumber, long retryTimeout, long loadingRate,
                        boolean skipPageOnRetry) {
 
     this.loadFunction = loadFunction;
@@ -67,6 +68,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     this.presetPagination = presetPagination;
     this.retryNumber = retryNumber;
     this.retryTimeout = retryTimeout;
+    this.loadingRate = loadingRate;
     this.skipPageOnRetry = skipPageOnRetry;
   }
 
@@ -106,6 +108,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     do {
       retry = false;
       skip = false;
+      sleepFor(loadingRate);
       lastPage = loadFunction.apply(this, page);
       if (retry || skip) continue;
       loadingResultConsumer.accept(lastPage, page);
@@ -159,7 +162,7 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
   public void retryPage() {
     if (retryCount < retryNumber) {
       // Retry after timeout
-      sleepForTimeout();
+      sleepFor(retryTimeout);
       retry = true;
       retryCount++;
     } else {
@@ -174,9 +177,10 @@ final class SerialPaginationImpl<T> implements SerialPagination<T>, SerialPagina
     }
   }
 
-  private void sleepForTimeout() {
+  private void sleepFor(long time) {
+    if (time <= 0) return;
     try {
-      Thread.sleep(retryTimeout);
+      Thread.sleep(time);
     } catch (InterruptedException e) {
       stop();
       Thread.currentThread().interrupt();

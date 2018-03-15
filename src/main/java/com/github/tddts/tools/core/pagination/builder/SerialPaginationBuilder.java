@@ -19,6 +19,7 @@ package com.github.tddts.tools.core.pagination.builder;
 import com.github.tddts.tools.core.pagination.Pagination;
 import com.github.tddts.tools.core.pagination.SerialPagination;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 /**
@@ -36,5 +37,14 @@ public interface SerialPaginationBuilder<T> extends PaginationBuilder<T, SerialP
    * @return current builder instance
    */
   SerialPaginationBuilder<T> loadWhile(Predicate<SerialPaginationConditionData<T>> condition);
+
+  /**
+   * Set loading rate. (time between loading of each page)
+   *
+   * @param rate     loading rate
+   * @param timeUnit rate time unit
+   * @return current builder instance
+   */
+  SerialPaginationBuilder<T> withRate(long rate, TimeUnit timeUnit);
 
 }

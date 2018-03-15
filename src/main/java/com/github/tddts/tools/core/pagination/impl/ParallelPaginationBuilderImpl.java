@@ -71,7 +71,7 @@ final class ParallelPaginationBuilderImpl<T>
   private Consumer<ParallelPagination<T>> buildPresetPagination(PaginationBuilderParams<T> params) {
     Consumer<ParallelPagination<T>> presetPagination;
 
-    if (params.isIncrementingperatorSet()) {
+    if (params.isIncrementinOperatorSet()) {
       presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage(), params.getIncrementingOperator());
     } else {
       presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage());

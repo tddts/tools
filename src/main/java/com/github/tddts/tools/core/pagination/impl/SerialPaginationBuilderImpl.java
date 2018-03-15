@@ -48,6 +48,12 @@ final class SerialPaginationBuilderImpl<T>
   }
 
   @Override
+  public SerialPaginationBuilder<T> withRate(long rate, TimeUnit timeUnit) {
+    getParams().setLoadingRate(timeUnit.toMillis(rate));
+    return this;
+  }
+
+  @Override
   public SerialPagination<T> build() {
     SerialPaginationBuilderParams<T> params = getParams();
     params.validate();
@@ -58,6 +64,7 @@ final class SerialPaginationBuilderImpl<T>
         params.getLoadingResultConsumer(),
         params.getRetryNumber(),
         params.getRetryTimeout(),
+        params.getLoadingRate(),
         params.isSkipPageOnRetry());
   }
 
@@ -65,13 +72,13 @@ final class SerialPaginationBuilderImpl<T>
     Consumer<SerialPagination<T>> presetPagination = null;
 
     if (params.isLastPageSet()) {
-      if (params.isIncrementingperatorSet()) {
+      if (params.isIncrementinOperatorSet()) {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage(), params.getIncrementingOperator());
       } else {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getLastPage());
       }
     } else {
-      if (params.isIncrementingperatorSet()) {
+      if (params.isIncrementinOperatorSet()) {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getIncrementingOperator(), params.getCondition());
       } else {
         presetPagination = (pagination) -> pagination.perform(params.getFirstPage(), params.getCondition());

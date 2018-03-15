@@ -81,7 +81,7 @@ class PaginationBuilderParams<T> {
     this.incrementingOperator = incrementingOperator;
   }
 
-  boolean isIncrementingperatorSet() {
+  boolean isIncrementinOperatorSet() {
     return incrementingOperator != null;
   }
 
