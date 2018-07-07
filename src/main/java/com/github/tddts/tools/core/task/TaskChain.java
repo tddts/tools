@@ -116,7 +116,7 @@ public interface TaskChain<T> {
   void stopAndWait();
 
   /**
-   * @return true if execution is finished, false otherwise.
+   * @return true if execution is currently running, false otherwise.
    */
-  boolean isFinished();
+  boolean isRunning();
 }

@@ -149,8 +149,8 @@ public class ReusableTaskChain<T> implements TaskChain<T> {
   }
 
   @Override
-  public boolean isFinished() {
-    return finished;
+  public boolean isRunning() {
+    return running;
   }
 
   private void await() {
