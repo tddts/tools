@@ -21,6 +21,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
@@ -77,6 +78,16 @@ public class ResourceUtil {
    */
   public static String loadContent(String resourceName) throws UncheckedIOException {
     return loadContent(resourceName, StandardCharsets.UTF_8);
+  }
+
+  /**
+   * Get URL of a classpath resource
+   *
+   * @param resourceName name of a resource
+   * @return resource URL
+   */
+  public static URL getClasspathResourceURL(String resourceName) {
+    return Thread.currentThread().getContextClassLoader().getResource(resourceName);
   }
 
 }
