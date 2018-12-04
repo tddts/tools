@@ -44,8 +44,9 @@ public class ReusableTaskChain<T> implements TaskChain<T> {
     taskList = new LinkedList<>();
   }
 
-  private ReusableTaskChain(LinkedList<Task> taskList) {
-    this.taskList = taskList;
+  private ReusableTaskChain(ReusableTaskChain<?> parentChain) {
+    this.taskList = parentChain.taskList;
+    this.finallyRunnableList = parentChain.finallyRunnableList;
   }
 
   @Override
@@ -62,14 +63,14 @@ public class ReusableTaskChain<T> implements TaskChain<T> {
 
   @Override
   public <R> TaskChain<R> process(Function<T, R> function) {
-    ReusableTaskChain<R> taskChain = new ReusableTaskChain<>(taskList);
+    ReusableTaskChain<R> taskChain = new ReusableTaskChain<>(this);
     taskList.add(new SimpleTask(() -> taskChain.object = function.apply(object)));
     return taskChain;
   }
 
   @Override
   public <R> TaskChain<R> supply(Supplier<R> supplier) {
-    ReusableTaskChain<R> taskChain = new ReusableTaskChain<>(taskList);
+    ReusableTaskChain<R> taskChain = new ReusableTaskChain<>(this);
     taskList.add(new SimpleTask(() -> taskChain.object = supplier.get()));
     return taskChain;
   }
