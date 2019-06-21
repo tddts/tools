@@ -1,7 +1,7 @@
 
 **_Currently in developement_**
 # tools-core
-Tools for desktop Java applications.
+Various tools for Java application.
 
 ## Build requirements
 JDK 8 (1.8.0_131 or higher)
